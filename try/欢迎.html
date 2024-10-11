@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻想圣地</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #8e24aa, #1976d2); /* 紫色到蓝色的渐变 */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            color: white; /* 文字颜色设置为白色 */
+        }
+        button {
+            padding: 20px 40px; /* 增大按钮的内边距 */
+            font-size: 22px; /* 增大按钮字体 */
+            color: white;
+            background-color: #00796b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #004d40;
+            transform: scale(1.05);
+        }
+        #message {
+            display: none;
+            margin-top: 30px; /* 增大消息和按钮之间的间隔 */
+            font-size: 36px; /* 增大消息字体 */
+            text-align: center; /* 文字居中 */
+            opacity: 0;
+            transform: translateY(-20px); /* 向上移动20px */
+            transition: opacity 1s ease-in, transform 0.5s ease; /* 添加位移的过渡效果 */
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <button id="fantasyButton">开启幻想圣地</button>
+        <div id="message">
+            你好！<br>很高兴能和你一起探索
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('fantasyButton').onclick = function() {
+            this.style.display = 'none'; // 隐藏按钮
+            let message = document.getElementById('message');
+            message.style.display = 'block'; // 显示消息
+            setTimeout(() => {
+                message.style.opacity = '1'; // 添加动画效果
+                message.style.transform = 'translateY(0)'; // 恢复位置
+            }, 10); // 确保显示后再设置透明度
+        }
+    </script>
+
+</body>
+</html>
