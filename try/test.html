@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户输入示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        p {
+            margin-top: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>请输入内容</h1>
+        <input type="text" id="userInput" placeholder="在这里输入...">
+        <button id="submitButton">提交</button>
+        <p id="output"></p>
+    </div>
+
+    <script>
+        document.getElementById("submitButton").onclick = function() {
+            const userInput = document.getElementById("userInput").value;
+            if (userInput) {
+                fetch('http://localhost:3000/submit-input', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ input: userInput })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('成功:', data);
+                    document.getElementById("output").innerText = "您输入的内容是: " + data.input;
+                })
+                .catch((error) => {
+                    console.error('错误:', error);
+                    document.getElementById("output").innerText = "提交失败，请重试。";
+                });
+            } else {
+                document.getElementById("output").innerText = "请输入一些内容。";
+            }
+        };
+    </script>
+</body>
+</html>
