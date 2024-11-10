@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接按钮示例</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #121212; /* 暗色背景 */
+            color: #ffffff; /* 文字颜色 */
+            flex-direction: column; /* 纵向排列 */
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px; /* 标题与按钮间隔 */
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 50px; /* 增大了按钮的宽度 */
+            margin: 10px;
+            background-color: #1E88E5; /* 按钮背景颜色 */
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #1565C0; /* 鼠标悬停时的颜色 */
+            transform: translateY(-2px);
+        }
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .footer {
+            margin-top: 20px; /* 注释与按钮的间隔 */
+            text-align: center;
+            font-size: 0.9em;
+            color: #cccccc; /* 注释文字颜色 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>这里有一些特殊的网页</h1>
+    <h2>按日期找到自己的哦</h2>
+    <div class="button-container">
+        <a href="241110/1.html" class="button">241110</a>
+        
+    </div>
+    
+    <div class="footer">
+        点击上面的按钮访问不同的网站链接。
+    </div>
+
+</body>
+</html>

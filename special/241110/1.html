@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff7eb3, #ff67a0);
+            animation: backgroundAnimation 10s infinite alternate;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background: linear-gradient(135deg, #ff7eb3, #ff67a0); }
+            100% { background: linear-gradient(135deg, #ff67a0, #ff7eb3); }
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .login-container:hover {
+            transform: scale(1.02);
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        .login-container input:focus {
+            border-color: #ff67a0;
+            outline: none;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff67a0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .login-container button:hover {
+            background-color: #ff4d88;
+            transform: translateY(-2px);
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>请登录</h2>
+    <input type="text" id="username" placeholder="昵称" required>
+    <input type="password" id="password" placeholder="密码" required>
+    <button onclick="login()">登录</button>
+    <div id="error-message" class="error"></div>
+</div>
+
+<script>
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+
+        // 假设的正确用户名和密码
+        const correctUsername = 'cicada';
+        const correctPassword = '1983';
+        if (username === correctUsername && password === correctPassword) {
+            // 登录成功，跳转到另一个页面
+            window.location.href = '2.html'; // 请替换为目标页面的 URL
+        } else {
+            // 登录失败，显示错误信息
+            errorMessage.textContent = '昵称或密码错误，重新输入。';
+        }
+    }
+</script>
+
+</body>
+</html>

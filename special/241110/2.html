@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年份输入</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f9cbdc, #f8e3e9);
+            animation: backgroundAnimation 10s infinite alternate;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background: linear-gradient(135deg, #f9cbdc, #f8e3e9); }
+            100% { background: linear-gradient(135deg, #f8e3e9, #f9cbdc); }
+        }
+
+        .container, .intro, .end {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .container:hover, .intro:hover, .end:hover {
+            transform: scale(1.05);
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        img:hover {
+            transform: scale(1.03);
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #e74c3c;
+            border-radius: 5px;
+            width: 80%;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff6f61;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .end {
+            display: none;
+        }
+
+        .count {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            opacity: 0;
+            transition: opacity 0.5s ease-in; /* 添加淡入效果 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="intro" id="intro">
+    <h2>momo,欢迎！</h2>
+    <p>在这里，你需要根据给出的图片输入正确的年份。</p>
+    <button onclick="startGame()">准备好了！！</button>
+</div>
+
+<div class="container" style="display: none;" id="game-container">
+    <h2>请输入年份</h2>
+    <div style="max-width: 100%; overflow: hidden; border-radius: 10px;">
+        <img id="image" src="https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314137.jpg" alt="图片" /> <!-- 替换为你的图片路径 -->
+    </div>
+    <input type="number" id="year-input" placeholder="年份" required>
+    <button onclick="checkYear()">提交</button>
+    <div id="error-message" class="error"></div>
+</div>
+
+<div class="end" id="end-container">
+    <div class="count" id="counting-number">1983</div>
+</div>
+
+<script>
+    let currentImageIndex = 0;
+    const correctYears = [2018, 2019,2020,2022,2022,2023,2024]; // 假设的正确年份
+    const imagePaths = ['https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314137.jpg', 
+    'https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314377.jpg',
+'https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314183.jpg',
+'https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314873.jpg',
+'https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314253.jpg',
+'https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314422.jpg',
+'https://ideal2.oss-cn-hangzhou.aliyuncs.com/img/202411101314591.jpg']; // 替换为你的图片路径
+
+    function startGame() {
+        document.getElementById('intro').style.display = 'none'; // 隐藏介绍
+        document.getElementById('game-container').style.display = 'block'; // 显示游戏容器
+    }
+
+    function checkYear() {
+        const userInput = parseInt(document.getElementById('year-input').value);
+        const errorMessage = document.getElementById('error-message');
+
+        if (userInput === correctYears[currentImageIndex]) {
+            // 年份正确，跳转到下一个图片
+            currentImageIndex++;
+            if (currentImageIndex < imagePaths.length) {
+                document.getElementById('image').src = imagePaths[currentImageIndex];
+                document.getElementById('year-input').value = ''; // 清空输入框
+                errorMessage.textContent = ''; // 清空错误信息
+            } else {
+                displayEndScreen(); // 所有图片完成，显示结束画面
+            }
+        } else {
+            // 年份错误，显示错误信息
+            errorMessage.textContent = '年份错误，请重新输入。';
+        }
+    }
+
+    function displayEndScreen() {
+        document.getElementById('game-container').style.display = 'none'; // 隐藏游戏容器
+        document.getElementById('end-container').style.display = 'block'; // 显示结束容器
+        animateNumber(); // 开始数字动画
+    }
+
+    function animateNumber() {
+        let numberElement = document.getElementById('counting-number');
+        numberElement.style.opacity = 1; // 添加淡入效果
+        let count = 1983; // 起始数字
+        const target = 2024; // 结束数字
+        const duration = 2000; // 动画总时长
+        const framesPerSecond = 30; // 每秒帧数
+        const totalFrames = duration / 1000 * framesPerSecond; // 总帧数
+        const increment = (target - count) / totalFrames; // 每帧增加的值
+        let currentFrame = 0;
+
+        const interval = setInterval(() => {
+            if (currentFrame < totalFrames) {
+                count += increment;
+                numberElement.textContent = Math.round(count); // 更新数字
+                currentFrame++;
+            } else {
+                clearInterval(interval); // 清除定时器
+                numberElement.textContent = target; // 确保最后显示目标数字
+                // 跳转到指定页面
+                window.location.href = "3.html"; // 替换为你的目标页面路径
+            }
+        }, 1000 / framesPerSecond); // 根据帧率更新
+    }
+</script>
+
+</body>
+</html>
