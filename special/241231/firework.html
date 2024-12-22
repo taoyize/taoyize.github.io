@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>烟花</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .message {
+            position: relative;
+            z-index: 10;
+            font-size: 50px;
+            opacity: 0;
+            transform: scale(0.5); /* 初始化缩放 */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .message.show {
+            opacity: 1;
+            transform: scale(1); /* 动画结束时恢复正常大小 */
+        }
+        #fadeText{
+            font-size:50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="fadeText">请点击屏幕</div>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="message" id="message"></div>
+    <script>
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const maxClicks = 5; // 用户点击的最大次数
+        const messcnt=21;
+        let clickCount = 0; // 当前点击次数
+        const messageElement = document.getElementById('message');
+        let isMessageVisible = false; // 标志文本是否可见
+
+        const messages = [
+            "lx,今天是2024的最后一天",
+            "回看2024",
+            "2024.7.24是我无法忘却的一天",
+            "而2024.7.29是我这一年最精彩的一天",
+            "那时的激动与喜悦是未曾感受过的",
+            "看向前方，看向2025",
+            "首先祝愿敬爱的理想同学",
+            "在2025能够实现自我（实现理想）",
+            "25中考顺利上岸！",
+            "25踏入理想的中学",
+            "以及在25还能记得我",
+            "2025，我们会更加努力的提升自我，冲向前方！",
+            "在今天，我想说：",
+            "你如同一朵夜云，在我梦幻的天空里浮泛",
+            "最后再点击屏幕几次，之后就能看到我送你的繁星了",
+            "-- 陶懿泽 24.12.22"
+        ]; // 定义随机文本数组
+        window.onload = function() {
+        const textElement = document.getElementById('fadeText');
+        setTimeout(() => {
+            textElement.style.opacity = 0; // 开始逐渐消失
+        }, 10000); // 等待1秒后开始消失
+    };
+        class Particle {
+            constructor(x, y, color, velocityX, velocityY) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.velocityX = velocityX;
+                this.velocityY = velocityY;
+                this.radius = Math.random() * 4 + 1;
+                this.opacity = 1;
+                this.life = 100;
+            }
+
+            update() {
+                this.velocityX *= 0.98;
+                this.velocityY += 0.1;
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+                this.opacity = Math.max(this.opacity - 1 / this.life, 0);
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+            }
+        }
+
+        class Firework {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.particles = [];
+                this.createParticles();
+            }
+
+            createParticles() {
+                const numberOfParticles = 100; // 定义粒子数量
+                try {
+                    for (let i = 0; i < numberOfParticles; i++) {
+                        const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                        const velocityX = (Math.random() - 0.5) * 8;
+                        const velocityY = Math.random() * -10;
+
+                        // 检查生成的速度值是否有效
+                        if (isNaN(velocityX) || isNaN(velocityY)) {
+                            throw new Error("生成的速度值无效");
+                        }
+
+                        this.particles.push(new Particle(this.x, this.y, color, velocityX, velocityY));
+                    }
+                } catch (error) {
+                    console.error("创建粒子时发生错误:", error);
+                }
+            }
+
+            update() {
+                this.particles.forEach(particle => particle.update());
+            }
+
+            draw() {
+                this.particles.forEach(particle => particle.draw());
+            }
+        }
+
+        let fireworks = [];
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // 背景淡化效果
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            fireworks.forEach((firework, index) => {
+                firework.update();
+                firework.draw();
+                // 检查firework中的粒子是否存在，并且所有粒子的透明度是否小于等于零
+                if (firework.particles.length === 0 || firework.particles.every(particle => particle.opacity <= 0)) {
+                    fireworks.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('click', (event) => {
+            if (isMessageVisible) return; // 如果文本可见，则返回
+            const x = event.clientX;
+            const y = event.clientY;
+            fireworks.push(new Firework(x, y));
+            clickCount++;
+            //console.log(`用户点击次数: ${clickCount}`);
+            if (clickCount > maxClicks) {
+                showMessage(clickCount - maxClicks); // 显示消息
+            }
+            if(clickCount>=messcnt+maxClicks){
+                window.location.href = 'indexs.html';
+            }
+        });
+
+        function showMessage(ind) {
+            //console.log(`用户点击次数: ${clickCount}`);
+            messageElement.textContent = messages[ind-1]; // 随机选择一条消息
+            messageElement.classList.add('show'); // 添加类以触发显示动画
+            isMessageVisible = true; // 设置标志为可见
+
+            setTimeout(() => {
+                messageElement.classList.remove('show'); // 移除类以触发隐藏动画
+                isMessageVisible = false; // 设置标志为不可见
+            }, 2000); // 2秒后逐渐隐藏
+        }
+
+        animate();
+    </script>
+</body>
+</html>

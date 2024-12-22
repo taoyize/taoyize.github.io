@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            background-color: #121212;
+            background: linear-gradient(135deg, #1a1a1a, #272727);
+            animation: gradientAnimation 12s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .login-container {
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+            transition: transform 0.3s;
+            width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-container:hover {
+            transform: scale(1.03);
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #cccccc;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background-color: #222;
+            color: #ffffff;
+            transition: border 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border: 1px solid #1e69d2;
+            outline: none;
+            box-shadow: 0 0 10px rgba(30, 105, 210, 0.6);
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #1e69d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="submit"]:hover {
+            background-color: #145a9d;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const correctUsername = "李响";
+            const correctPassword = "286369";
+
+            if (username === correctUsername && password === correctPassword) {
+                window.location.href = "元旦祝福.html"; // 假设下一个页面为welcome.html
+            } else {
+                document.getElementById("error-message").style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <h2>确认身份</h2>
+        <form onsubmit="event.preventDefault(); validateForm();">
+            <label for="username">真实姓名:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="登录">
+            <div id="error-message" class="error-message">用户名或密码错误</div>
+        </form>
+    </div>
+</body>
+</html>
