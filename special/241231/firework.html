@@ -51,28 +51,28 @@
         canvas.height = window.innerHeight;
 
         const maxClicks = 5; // 用户点击的最大次数
-        const messcnt=21;
+        const messcnt=19;
         let clickCount = 0; // 当前点击次数
         const messageElement = document.getElementById('message');
         let isMessageVisible = false; // 标志文本是否可见
 
         const messages = [
-            "lx,今天是2024的最后一天",
+            "李响,今天是2024的最后一天",
             "回看2024",
-            "2024.7.24是我无法忘却的一天",
-            "而2024.7.29是我这一年最精彩的一天",
-            "那时的激动与喜悦是未曾感受过的",
+            "我们的重逢让2024无比精彩",
             "看向前方，看向2025",
             "首先祝愿敬爱的理想同学",
-            "在2025能够实现自我（实现理想）",
+            "在2025能够实现自我",
             "25中考顺利上岸！",
             "25踏入理想的中学",
-            "以及在25还能记得我",
-            "2025，我们会更加努力的提升自我，冲向前方！",
+            "以及在25能够想起我",
+            "2025，我会更加努力的提升自我，冲向前方！",
+            "2025,我会努力改正2024的不足",
+            "2025,每天我都会期盼着与你的见面",
             "在今天，我想说：",
             "你如同一朵夜云，在我梦幻的天空里浮泛",
-            "最后再点击屏幕几次，之后就能看到我送你的繁星了",
-            "-- 陶懿泽 24.12.22"
+            "最后再点击屏幕几次，去看星空！",
+            "-- 陶懿泽 24.12.29"
         ]; // 定义随机文本数组
         window.onload = function() {
         const textElement = document.getElementById('fadeText');
@@ -175,7 +175,7 @@
                 showMessage(clickCount - maxClicks); // 显示消息
             }
             if(clickCount>=messcnt+maxClicks){
-                window.location.href = 'indexs.html';
+                window.location.href = 'starsky.html';
             }
         });
 
